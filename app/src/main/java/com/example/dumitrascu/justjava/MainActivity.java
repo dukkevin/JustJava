@@ -11,7 +11,9 @@ package com.example.dumitrascu.justjava;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -49,8 +51,16 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
+        // Figure out if the user wants whipped cream topping
+        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id. whipped_cream_checkbox);
+        boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
+
+        // Figure out if the user wants chocolate topping
+        CheckBox chocolateCheckBox = (CheckBox) findViewById(R.id. chocolate_checkbox);
+        boolean hasChocolate = chocolateCheckBox.isChecked();
+
         int price = calculatePrice(quantity);
-        displayMessage (createOrderSummary(price));
+        displayMessage (createOrderSummary(price, hasWhippedCream, hasChocolate));
     }
 
     /**
@@ -66,10 +76,15 @@ public class MainActivity extends AppCompatActivity {
      * Create summary of the order.
      *
      * @param price of the order
+     * @param addWhippedCream is whether or not the user wants whipped cream topping
+     * @param addChocolate is whether or not the user wants chocolate topping
+     * @param price of the order
      * @return text summary
      */
-    private String createOrderSummary(int price) {
+    private String createOrderSummary(int price, boolean addWhippedCream, boolean addChocolate) {
         String priceMessage = "Name: D.U. Kevin";
+        priceMessage += "\nAdd whipped cream?" + addWhippedCream;
+        priceMessage += "\nAdd chocolate?" +addChocolate;
         priceMessage += "\nQuantity: " + quantity;
         priceMessage += "\nTotal: $" + price;
         priceMessage += "\nThank you!";
